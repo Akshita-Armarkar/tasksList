@@ -1,5 +1,6 @@
 const taskInput=document.querySelector('.task-input');
 const taskParent=document.querySelector('.dynamic-group');
+
 //buttons:
 const addButton=document.getElementById('add-button');
 const allButton=document.getElementById('all-button');
@@ -18,21 +19,28 @@ const taskManager={
         parent.classList.add('task');
         parent.dataset.index=index;
         
-        let input=document.createElement('input');
-        input.setAttribute('type','checkbox');
-        input.classList.add('task-type');
-        input.dataset.index=index;
+        let checkbox=document.createElement('input');
+        checkbox.setAttribute('type','checkbox');
+        checkbox.setAttribute('id',`checkbox-${index}`);
+        checkbox.classList.add('task-type');
+        checkbox.dataset.index=index;
+
+        let label=document.createElement('label');
+        label.setAttribute('for',`checkbox-${index}`);
         
         let name=document.createElement('div');
         name.classList.add('desc');
         name.textContent=description;
 
+        let deleteIcon=document.createElement('img');
+        deleteIcon.src='./delete.svg';
+
         let deleteButton=document.createElement('button');
         deleteButton.classList.add('delete-button');
-        deleteButton.textContent='remove';
         deleteButton.dataset.index=index;
+        deleteButton.append(deleteIcon);
 
-        parent.append(input,name,deleteButton);
+        parent.append(checkbox,label,name,deleteButton);
 
         this.tasks.push({
             name:description,
@@ -97,6 +105,7 @@ const taskManager={
     }
 
 }
+
 addButton.addEventListener('click',function(){
     let desc=taskInput.value;
     if(!desc)return;
@@ -112,6 +121,7 @@ completeButton.addEventListener('click',function(){
 incompleteButton.addEventListener('click',function(){
     taskManager.changeState('incomplete');
 })
+
 taskParent.addEventListener('click',function(event){
     if(event.target.classList.contains('task-type')){
         let checkbox=event.target;
@@ -123,8 +133,12 @@ taskParent.addEventListener('click',function(event){
         let id=deleteButton.dataset.index;
         taskManager.deleteTask(id);
     }
-
     
+
 })
+
+
+
+
 
 

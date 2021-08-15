@@ -29,10 +29,55 @@ html, body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.task .task-type:checked + .desc {
+.task .task-type {
+  display: none;
+}
+
+.task .task-type:checked + label {
+  -webkit-box-shadow: inset 0 0 0px 2px white, inset 0 0 0px 0.4rem #2C2E43;
+          box-shadow: inset 0 0 0px 2px white, inset 0 0 0px 0.4rem #2C2E43;
+}
+
+.task .task-type:checked ~ .desc {
   text-decoration: line-through;
   opacity: 0.6;
+}
+
+.task label {
+  display: block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid #2C2E43;
+  border-radius: 0.8rem;
+  cursor: pointer;
+}
+
+.buttons {
+  margin: 2rem 0;
+}
+
+.task-input {
+  font-size: 1rem;
+  border: 2px solid #2C2E43;
+  outline: none;
+  padding: 0.4em 1em;
+  text-align: left;
+}
+
+.style-button {
+  font-size: 1rem;
+  padding: 0.4em 1em;
+  margin: 0 0.3rem;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid #2C2E43;
+  border-radius: 5px;
+  color: #2C2E43;
+  background: #FFD523;
 }
 /*# sourceMappingURL=styles.css.map */
