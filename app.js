@@ -1,5 +1,10 @@
-const input=document.querySelector('.task-input');
+const taskInput=document.querySelector('.task-input');
 const taskParent=document.querySelector('.dynamic-group');
+//buttons:
+const addButton=document.getElementById('add-button');
+const allButton=document.getElementById('all-button');
+const completeButton=document.getElementById('complete-button');
+const incompleteButton=document.getElementById('incomplete-button');
 
 let index=123;
 
@@ -16,12 +21,18 @@ const taskManager={
         let input=document.createElement('input');
         input.setAttribute('type','checkbox');
         input.classList.add('task-type');
+        input.dataset.index=index;
         
         let name=document.createElement('div');
         name.classList.add('desc');
         name.textContent=description;
 
-        parent.append(input,name);
+        let deleteButton=document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.textContent='remove';
+        deleteButton.dataset.index=index;
+
+        parent.append(input,name,deleteButton);
 
         this.tasks.push({
             name:description,
@@ -40,13 +51,17 @@ const taskManager={
             else return true;
         })
     },
-    toggleComplete:function(id){
+    toggleComplete:function(id,value){
         let task=this.tasks.find(function(task){
             if(task.id===id)return true;
             else return false;
         })
-        task.completed=!task.completed;
+        task.completed=value;
         this.verifyView();     
+    },
+    changeState:function(value='all'){
+        this.state=value;
+        this.verifyView();
     },
     verifyView:function(){
         let activeTasks;
@@ -82,8 +97,34 @@ const taskManager={
     }
 
 }
-window.taskManager=taskManager;
+addButton.addEventListener('click',function(){
+    let desc=taskInput.value;
+    if(!desc)return;
+    taskManager.createTask(desc);
+    taskInput.value='';
+})
+allButton.addEventListener('click',function(){
+    taskManager.changeState('all');
+})
+completeButton.addEventListener('click',function(){
+    taskManager.changeState('complete');
+})
+incompleteButton.addEventListener('click',function(){
+    taskManager.changeState('incomplete');
+})
+taskParent.addEventListener('click',function(event){
+    if(event.target.classList.contains('task-type')){
+        let checkbox=event.target;
+        let id=checkbox.dataset.index;
+        taskManager.toggleComplete(id,checkbox.checked);
+    }
+    if(event.target.classList.contains('delete-button')){
+        let deleteButton=event.target;
+        let id=deleteButton.dataset.index;
+        taskManager.deleteTask(id);
+    }
 
-
+    
+})
 
 
