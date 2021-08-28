@@ -1,5 +1,6 @@
 const taskInput=document.querySelector('.task-input');
 const taskParent=document.querySelector('.dynamic-group');
+const buttonsParent=document.querySelector('.buttons')
 
 //buttons:
 const addButton=document.getElementById('add-button');
@@ -40,7 +41,10 @@ const taskManager={
         deleteButton.dataset.index=index;
         deleteButton.append(deleteIcon);
 
-        parent.append(checkbox,label,name,deleteButton);
+        let background=document.createElement('div');
+        background.classList.add('background');
+
+        parent.append(checkbox,label,name,deleteButton,background);
 
         this.tasks.push({
             name:description,
@@ -69,6 +73,7 @@ const taskManager={
     },
     changeState:function(value='all'){
         this.state=value;
+        buttonsParent.id=value;
         this.verifyView();
     },
     verifyView:function(){
@@ -105,6 +110,10 @@ const taskManager={
     }
 
 }
+
+taskInput.addEventListener('keydown',function(e){
+    if(e.code === 'Enter')addButton.click();
+})
 
 addButton.addEventListener('click',function(){
     let desc=taskInput.value;
